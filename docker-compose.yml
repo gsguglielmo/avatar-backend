@@ -1,0 +1,27 @@
+version: '3'
+
+services:
+  mariadb:
+    image: mariadb:latest
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: verysecurepassword
+      MYSQL_DATABASE: avatar
+      MYSQL_USER: user
+      MYSQL_PASSWORD: verysecurepassword
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./data:/var/lib/mysql
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    restart: always
+    environment:
+      PMA_HOST: mariadb
+      PMA_USER: root
+      PMA_PASSWORD: verysecurepassword
+    ports:
+      - "8080:80"
+    depends_on:
+      - mariadb
